@@ -5,6 +5,19 @@ var $leftArrow = $('<a href="#" class="leftArrow"><i class="fa fa-angle-left" ar
 var $rightArrow = $('<a href="#" class="rightArrow"><i class="fa fa-angle-right" aria-hidden="true"></i>');
 var $caption = $('<p id="caption"></p>');
 var currentIndex;
+var $input = $('#inputText');
+var $photos = $('.images a').children("img");
+
+//filter search results in real time by image's alt text
+$($input).keyup(function(){
+    $($photos).each(function(){
+        if($(this).attr("alt").indexOf($input.val()) > -1) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+});
 
 
 $('body').append($overlay);
@@ -68,10 +81,5 @@ function renderImage($link) {
     	$leftArrow.show();
     }
   }  
-
-
-
-
-
 
 
