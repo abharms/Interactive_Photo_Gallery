@@ -1,60 +1,85 @@
-
 var $overlay = $('<div id="overlay"></div>');
-var $imageContainer = $('<div class="imageContainer"></div>')
+var $links = $('.images a');
+var $image = $('<img>');
+var $leftArrow = $('<a href="#" class="leftArrow"><i class="fa fa-angle-left" aria-hidden="true"></i>');
+var $rightArrow = $('<a href="#" class="rightArrow"><i class="fa fa-angle-right" aria-hidden="true"></i>');
 var $caption = $('<p id="caption"></p>');
-var $image = $("<img>");
-var $leftArrow = $('<a href="#" class="leftArrow" onclick="prev(); return false;"><i class="fa fa-angle-left" aria-hidden="true"></i>');
-var $rightArrow = $('<a href="#" class="rightArrow" onclick="next(); return false;"><i class="fa fa-angle-right" aria-hidden="true"></i>');
+var currentIndex;
+var $input = $('#inputText');
+var $photos = $('.images a').children("img");
 
-//Add image container to overlay
-$overlay.append($imageContainer);
-
-//Add image to overlay
-$imageContainer.append($image);
-
-//Add navigation arrows to overlay
-$imageContainer.append($leftArrow);
-$imageContainer.append($rightArrow);
-
-//Add caption to image
-$overlay.append($caption);
-//add overlay
-$("body").append($overlay);
-
-
-//capture click event on a link to an image
-$(".images a").click(function(event){
-	event.preventDefault();
-	var imageLocation = $(this).attr("href");
-
-	$image.attr("src", imageLocation);
-	$overlay.show();
-
-	//get child's alt attribute and set caption
-	var $captionText = $(this).children("img").attr("alt");
-	$caption.text($captionText);
+//filter search results in real time by image's alt text
+$($input).keyup(function(){
+    $($photos).each(function(){
+        if($(this).attr("alt").indexOf($input.val()) > -1) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
 });
 
 
-$overlay.click(function(){
+$('body').append($overlay);
+
+$overlay.append($image);
+ //render the nav arrows
+ $overlay.append($leftArrow);
+ $overlay.append($rightArrow);
+
+
+//add overlay when user clicks on any photo
+$($links).click(function(e){
+	e.preventDefault();
+    renderImage($(this));
+    currentIndex = $links.index($(this));
+    $overlay.show();
+ });
+
+
+//hide overlay when clicked anywhere except nav arrows
+$($overlay).click(function(){
 	$overlay.hide();
 })
 
-$(".leftArrow").bind("click", function(e){
+$($leftArrow).click(function(e){
 	e.stopPropagation();
+	var image = $(".images a").eq(--currentIndex);
+    renderImage(image);
 });
 
-$(".rightArrow").bind("click", function(e){
+$($rightArrow).click(function(e){
 	e.stopPropagation();
-});	
+	var image = $('.images a').eq(++currentIndex)
+	renderImage(image);
 
-function next() {
-	$($image).each(function(){
-		$(this).hide();
-		$($caption).hide();
-		$($image).next();
-	})
+});
 
-}
+
+function renderImage($link) {
+	//grab href value of large image and store into imageLocation variable
+	var imageLocation = $link.attr("href");
+	//grab alt attribute of children of clicked thumbnail and save to captionText variable
+	var captionText = $link.children("img").attr("alt");
+   	//render the clicked image
+    $image.attr("src", imageLocation);
+   //append caption div to overlay
+    $overlay.append($caption);
+    //set caption div text
+    $caption.text(captionText);
+
+    //hide right arrow when last photo is rendered
+    if(currentIndex >= $links.length - 1) {
+    	$rightArrow.hide();
+    } else {
+    	$rightArrow.show();
+    }
+    //hide left arrow when first photo is rendered
+    if(currentIndex <= 0) {
+    	$leftArrow.hide();
+    } else {
+    	$leftArrow.show();
+    }
+  }  
 
 
