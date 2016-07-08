@@ -43,7 +43,7 @@ img {
 }
 
 .imageContainer {
-	max-height: 100%
+	max-height: 100%;
 	width: 600px;
 	margin: 0 auto;
 	position: relative;
@@ -118,7 +118,7 @@ input[type=text] {
 
 
 
-@media only screen and (min-width: 960px) {
+@media (min-width: 960px) {
 	.photos-container {
 		width: 980px;
 	}
