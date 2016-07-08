@@ -67,7 +67,7 @@ a.rightArrow {
 	color: white;
 	font-size: 56px;
 	position: absolute;
-	top: 22%;
+	top: 6%;
 }
 
 .leftArrow {
@@ -105,7 +105,7 @@ input[type=text] {
 
 .leftArrow,
 .rightArrow {
-	top: 35%;
+	top: 25%;
 }
 
 .leftArrow {
@@ -125,7 +125,7 @@ input[type=text] {
 
 	.leftArrow,
 	.rightArrow {
-		top: 40%;
+		top: 38%;
 	}
 
 	.leftArrow {
