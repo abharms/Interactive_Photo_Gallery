@@ -17,10 +17,12 @@ $(function(){
 var handlers = {
     filterSearchResults: function() {
         var $input = $('#inputText');
-        var $photos = $('.images a').children("img");
+        //save thumbnail image to variable
+        var $thumbnails = $('.images a').children("img");
         //filter search results in real time by image's alt text
         $($input).keyup(function(){
-            $($photos).each(function(){
+            $($thumbnails).each(function(){
+                //checks if alt text matches user input
                 if($(this).attr("alt").indexOf($input.val()) > -1) {
                     $(this).show();
                 } else {
@@ -61,14 +63,22 @@ var handlers = {
             }
             //scroll to previous image
             $($leftArrow).click(function(e){
+                //prevents click from bubbling up the event chain and hiding overlay
                 e.stopPropagation();
+                //move one back from the current clicked index and save to variable
+                //--currentIndex decreases the value, then evaluates and stores it
                 var $decreaseCurrentIndexImage = $(".images a").eq(--currentIndex);
+                //call renderImage to show previous image
                 view.renderImage($decreaseCurrentIndexImage, $image, $overlay);
             });
             //scroll to next image
             $($rightArrow).click(function(e){
+                //prevents click from bubbling up the event chain and hiding overlay
                 e.stopPropagation();
+                //move one forward from the current clicked index and save to variable
+                //--currentIndex increments the value, then evaluates and stores it
                 var $increaseCurrentIndexImage = $('.images a').eq(++currentIndex)
+                //call renderImage to show next image
                 view.renderImage($increaseCurrentIndexImage, $image, $overlay);
             });
         });
