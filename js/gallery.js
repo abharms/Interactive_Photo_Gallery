@@ -21,7 +21,7 @@ var handlers = {
         //filter search results in real time by image's alt text
         $($input).keyup(function(){
             $($photos).each(function(){
-                if($(this).attr("alt").indexOf($input.val().) > -1) {
+                if($(this).attr("alt").indexOf($input.val()) > -1) {
                     $(this).show();
                 } else {
                     $(this).hide();
